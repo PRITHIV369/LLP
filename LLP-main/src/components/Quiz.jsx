@@ -6,6 +6,9 @@ const Quiz = () => {
   const [showResult, setShowResult] = useState(false);
   const [score, setScore] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [highestScore, setHighestScore] = useState(null);
+  const [username, setUsername] = useState(""); 
+
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
@@ -23,9 +26,8 @@ const Quiz = () => {
     };
     fetchQuestions();
   }, []);
-
   const handleAnswerSelect = (questionId, selectedOption) => {
-    if (showResult) return; 
+    if (showResult) return;
     setAnswers((prevAnswers) => ({
       ...prevAnswers,
       [questionId]: selectedOption,
@@ -37,10 +39,14 @@ const Quiz = () => {
       const response = await fetch("http://localhost:5000/api/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ answers }),
+        body: JSON.stringify({ username, answers }),
       });
       const result = await response.json();
       setScore(result.score);
+      const highestScoreResponse = await fetch(`http://localhost:5000/api/highest-score/${username}`);
+      const highestScoreData = await highestScoreResponse.json();
+      setHighestScore(highestScoreData.highestScore);
+
     } catch (error) {
       console.error("Error submitting answers:", error);
     } finally {
@@ -56,11 +62,20 @@ const Quiz = () => {
     setAnswers(resetAnswers);
     setShowResult(false);
     setScore(0);
+    setHighestScore(null); 
   };
   return (
     <section>
       <div className="md:w-9/12 w-[90%] mx-auto mb-8 flex flex-col md:flex-row">
         <div className="md:w-[70%]">
+          <input 
+            type="text" 
+            value={username} 
+            onChange={(e) => setUsername(e.target.value)} 
+            placeholder="Enter your username" 
+            className="border border-gray-300 rounded p-2 mb-4" 
+            required 
+          />
           {questions.map((qus, ind) => (
             <div
               key={qus._id} 
@@ -108,6 +123,9 @@ const Quiz = () => {
           {showResult && (
             <div>
               <h3 className="text-2xl font-medium">Your Score: {score}</h3>
+              {highestScore !== null && (
+                <h4 className="text-xl font-medium">Highest Score: {highestScore}</h4>
+              )}
               {questions.map((qus, index) => (
                 <div key={qus._id} className="mt-4">
                   <h4 className="text-lg font-bold">
@@ -135,4 +153,5 @@ const Quiz = () => {
     </section>
   );
 };
+
 export default Quiz;

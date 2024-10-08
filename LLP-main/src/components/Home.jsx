@@ -47,7 +47,7 @@ const Home = () => {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-6 h-6 mr-2" // Adjusted icon size and added margin
+              className="w-6 h-6 mr-2"
             >
               <path
                 strokeLinecap="round"
@@ -56,7 +56,6 @@ const Home = () => {
               />
             </svg>
             <span className="flex items-center">Know more</span>{" "}
-            {/* Center the text */}
           </button>
         </div>
       </div>

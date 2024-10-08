@@ -1,11 +1,10 @@
 import React from "react";
-import yourImage from "../../public/images/undraw_Questions_re_1fy7.png"; // Update the path to the uploaded image
+import yourImage from "../../public/images/undraw_Questions_re_1fy7.png"; 
 
 const Howitoworks = () => {
   return (
     <section className="w-full flex flex-col items-center py-12 min-h-[70vh]">
       <div className="flex flex-col-reverse w-11/12 p-10 bg-white rounded-lg  lg:w-[90%] lg:flex-row ">
-        {/* Text Section */}
         <div className="flex-1 mb-6 lg:mb-0 lg:mr-6 md:mt-14">
           <header className="mb-8 text-center lg:text-left">
             <h1 className="text-4xl font-bold text-gray-800">How It Works</h1>
